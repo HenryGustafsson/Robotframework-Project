@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.12.1 on win32)" generated="2025-05-17T10:59:57.409651" rpa="false" schemaversion="5">
+<suite id="s1" name="Swakopmund Attractions" source="C:\Users\Henry\Documents\RobotFrameworkProject\Robotframework-Project\swakopmund_attractions.robot">
+<test id="s1-t1" name="Summarize Museum Reviews Test" line="131">
+<kw name="Summarize Museum Reviews With AI">
+<kw name="Get File" owner="OperatingSystem">
+<msg time="2025-05-17T10:59:58.732180" level="INFO" html="true">Getting file '&lt;a href="file://C:\Users\Henry\Documents\RobotFrameworkProject\Robotframework-Project\museum_reviews.txt"&gt;C:\Users\Henry\Documents\RobotFrameworkProject\Robotframework-Project\museum_reviews.txt&lt;/a&gt;'.</msg>
+<msg time="2025-05-17T10:59:58.733180" level="INFO">${reviews} = Very great experience!
+Only recently went there for the first time.
+The people in charge and staff are super nice. …
+---
+We arrived late, and the old man was kind enough to let us in without paying. W...</msg>
+<var>${reviews}</var>
+<arg>${review_file}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<status status="PASS" start="2025-05-17T10:59:58.732180" elapsed="0.001000"/>
+</kw>
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2025-05-17T10:59:58.734182" level="INFO">${prompt} = Analyze the following museum reviews and summarize the main good and bad points as bullet points. Separate the good and bad points clearly.
+Reviews:
+Very great experience!
+Only recently went there for...</msg>
+<var>${prompt}</var>
+<arg>SEPARATOR=\n</arg>
+<arg>Analyze the following museum reviews and summarize the main good and bad points as bullet points. Separate the good and bad points clearly.\nReviews:\n${reviews}\nSummary:\nGood:\n-</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2025-05-17T10:59:58.733180" elapsed="0.001002"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-05-17T10:59:58.734182" level="INFO">${headers} = {'Authorization': 'Bearer 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', 'Conten...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${OPENAI_API_KEY}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-05-17T10:59:58.734182" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-05-17T10:59:58.735180" level="INFO">${message} = {'role': 'user', 'content': "Analyze the following museum reviews and summarize the main good and bad points as bullet points. Separate the good and bad points clearly.\nReviews:\nVery great experienc...</msg>
+<var>${message}</var>
+<arg>role=user</arg>
+<arg>content=${prompt}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-05-17T10:59:58.735180" elapsed="0.000000"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-05-17T10:59:58.736182" level="INFO">${messages} = [{'role': 'user', 'content': "Analyze the following museum reviews and summarize the main good and bad points as bullet points. Separate the good and bad points clearly.\nReviews:\nVery great experien...</msg>
+<var>${messages}</var>
+<arg>${message}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-05-17T10:59:58.735180" elapsed="0.001002"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-05-17T10:59:58.736182" level="INFO">${body} = {'model': 'gpt-3.5-turbo', 'messages': [{'role': 'user', 'content': "Analyze the following museum reviews and summarize the main good and bad points as bullet points. Separate the good and bad points ...</msg>
+<var>${body}</var>
+<arg>model=${MODEL}</arg>
+<arg>messages=${messages}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-05-17T10:59:58.736182" elapsed="0.000000"/>
+</kw>
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-05-17T10:59:58.737180" level="INFO">Creating Session using : alias=openai, url=https://api.openai.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>openai</arg>
+<arg>https://api.openai.com</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-05-17T10:59:58.737180" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-05-17T11:00:00.516043" level="INFO">POST Request : url=https://api.openai.com/v1/chat/completions 
+ path_url=/v1/chat/completions 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer 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', 'Content-Type': 'application/json', 'Content-Length': '18548'} 
+ body=b'{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "Analyze the following museum reviews and summarize the main good and bad points as bullet points. Separate the good and bad points clearly.\\nReviews:\\nVery great experience!\\nOnly recently went there for the first time.\\nThe people in charge and staff are super nice. \\u2026\\n---\\nWe arrived late, and the old man was kind enough to let us in without paying. We just donated a few coins. There are so many interesting things to see, and they are very well maintained. Pass by it you around.\\n---\\nGreat museum, so much information and hiatory, the kids loved it.\\n---\\n3rd time I went to Swakopmund and I finally entered this wonderful museum! It really makes you understand Namibia better. A must do.  The museum itself almost belongsin a museum, but that just adda to the charm and the pioneering spirit of \\u2026\\n---\\nThis place is amazing!\\nA must visit\\n---\\nWe spent over an hour in this museum.  From toy cars, cameras, and printing presses to animals, insects, precious stones, and ox wagons.  Their collection of items is utterly amazing\\n---\\nSome great history that can be shared through the generations. Also some great exhibits of nature and geology that make up the the area as well as greater Namibia. \\u2026\\n---\\nThis museum is a true gem! There is so much to see, from the people of Namibia to animals, skulls, minerals, cameras and much more. I could have spend a few more hours here. The kids liked it as well. Entrance is very cheap.\\n---\\nVery well curated and maintained.\\nTime well spent and cheap entrance.\\nLots of super interesting and amazing historical artifacts and objects as well \\u2026\\n---\\nThis is an incredible museum full of treasures and interesting facts and history.\\nI would highly recommend taking at least 2 hours to browse through the amazing history and interesting topics. Children and adults can learn alot! Definitely worthwhile\\n---\\nA museum which captures the journey of the Namib from precolonial times, their way of life then and the coming of the white settlers late in the 19th century &amp; how it transformed their socio-economic spheres culminating in the modern day Namibia you now know. Pictography &amp; videography depicts the spectre of the journey.\\n---\\nVery interesting. The museum itself is it\'s own museum.\\nOne stop serves all from anthropology over history to technology.\\n---\\nOne of the finest museums I,ve ever been in. Simply superb\\n---\\nGreat museum! Lovely collection covering history, nature,... from tge aeta. Must stop.\\n---\\nHas excellent collection of minerals, birds eggs, animals, antiques and many others.\\n---\\nAn awesome museum. Has a great variety of things and is very well maintained. I can highly recommend the experience.\\n---\\nWaste of my time as I learned nothing in the museum, I can see it being fun for kids coz of the stuffed animals but no much history about the city\'s colonial period.\\n---\\nIts a nice place to spend some time. There are many good collection of old stuff which you have never seen. You may see revolution of the technology and some skeleton of animals as well. Entrance fee around 10-30 N$. If you are around swakopmund,its worth to visit this museum.\\n---\\nA lot of German artifects and history in Namibia exhibited in this museum. Not much of the Namibian people\\n---\\nAn extensive collection of Namibian artifacts and cultural items. It really helps the visitor to understand the country better. If you are a serious history buff, leave enough time for this activity\\n---\\nWe really enjoyed this museum. Lots to read, watch, and learn.  Worth spending a good part of your day if you can spare it in between stops.\\n---\\nA must pop in experience. Find out more about the different cultures and tribes of the country, see how olden day pharmacy and dental rooms looked, see different modes of transport and antique equipment ranging from cameras to currency to \\u2026\\n---\\nWell laid out and interesting.Great place to bring kids but will interest adults as well.Clearly marked out spaces with information well displayed.\\n---\\nLovely museum with lots of interesting things to see. Great for kids too!\\n---\\nInsightful museum if you want to learn more about Namibia and Swakopmund, it\'s inhabitants and animals. I think it\'s worth a visit.\\n---\\nThe old dentist office was particularly fascinating but the extensive and diverse displays were well laid out and detailed. We were fortunate to have 2 hours here, and could have stayed another 30 minutes or more. Most people seem to take \\u2026\\n---\\nAmazing place, took me and my lovely \\ud83e\\udd70 girlfriend back to history class. \\u2026\\n---\\nVery interesting museum full of great displays about the nature &amp; the history of the area, definitely worth a visit.\\n---\\nA very interesting exhibit on the Geology of Namibia. One of the exhibitions didn\'t work properly. Overall I recommend it and it is a very reasonable price.\\n---\\nVery good to visit. Fantastic collection and very educational - collection of Namibia\'s German colonial history, mineral specimens, indigenous fauna and flora\\n---\\nIf you want to learn about the Namibian history, but also have a look at their wide range of minerals, this is the place to go\\n---\\nOne place that is well stocked up in terms of information and memorabilia there even have a land rover parked inside the museum. The place is rich in information and artifacts with a lot of history\\n---\\nIt\'s an all-round informative museum about everything Namibian. You can learn a lot about the flora, fauna, people, and the geology of the place. You also find interesting facts and see some original items from the colonial era. One can easily spend 2-3 hours here because it\'s actually bigger than it looks\\n---\\nAwesome. Had wonderful experience at the museum! Interesting history facts.\\nA must see when in swakopmund\\n---\\nVery interesting insights of Namibias and especially Swakopmunds history and traditions\\n---\\nIt was a lovely way to spend an afternoon of leisure with several very interesting bits and bobs.\\n---\\nVery interesting little museum explaining not only the history of Namibia but also Namibian Animals, Geology, Martine Life etc. Need at least 2 hours for a proper visit.\\n---\\nReview of Swakopmund Museum:\\n\\nThe Swakopmund Museum is a fascinating institution located in the coastal town \\u2026\\n---\\nFor a small town very good museum. Found it better than Nairobi and Dar es Salam national museums\\n---\\nGreat place especially if you like rocks! It\'s a very cheap bit entertaining activity. Definitely recommended when you are here in Swakop:)\\n---\\nVery interesting even more if you have a German background.\\n---\\nI recently had the opportunity to explore the museum in Swakopmund, Namibia, on a Saturday afternoon. The entrance fee of Namibian Dollar 30 was quite reasonable. The museum\'s collection is a delightful mix of historical artifacts and \\u2026\\n---\\nIt has alot of history,  bummer is no guidance,  we had alot of questions that couldn\'t be answered\\n---\\nRich in history! Loved to learn about Swakopmund!\\n---\\nA nice place with good food &amp; friendly Service &amp; fair prices! \\ud83d\\udc4d \\u2026\\n---\\nKid friendly very cool place to visit\\n---\\nVery well worth a visit as it explains the history of Namibia in detail and a great experience\\n---\\nGood\\nInteresting\\nLot to learn about Namibia\\n---\\nGreat place and excellent food\\n---\\nFascinating! I highly recommend a visit! Well worth N$30pp! Enjoyed it immensely and leaned a lot about Namibia\'s history\\n---\\nAmazing place\\n\\nLots of artifacts and things to look at \\u2026\\n---\\nBig variety of history lessons that cater for eveyones taste. Well kept.\\n---\\nGreat museum with lots to see.\\n---\\nA small but interesting museum. With history of the people\'s of Namibia, some of the animals and insects of the country.  Kids enjoyed the visit.\\n---\\nA personal favourite place to visit for me. I love looking at all the exhibits, even though I\'ve already seen them a hundred times. I definitely recommend this place to anyone interested in a small bit of Namibian history, cultural, archaeological and geological. Very interesting.\\n---\\nNot very much off namibian history\\n---\\nHad a good experience here. Not a very big museum nor has any rare collection, but tells a story and has some historical stuff for sure that can take you back in time. It\'s very specific to Namibia and Swakopmund so will be interesting. Esp \\u2026\\n---\\nSmall and compact museum. Not too tiring and you can get briefly overview about Namibia history just 1,5 hours. Stuff was very friendly and polite.\\nYou can pay only cash.\\n---\\nIt was really cool and fun to look at all the historical things\\n---\\nLots to see, very informative\\n---\\nSights from around Swakopmund\\n---\\nVery awesome place loved it so much to see and learn\\nLol only have 1 pic on this phone\\n---\\nCooked food using really old oil and didn\'t care much for it. Waitresses also just aren\'t attentive. Worst restauranting experience I\'ve had in year. Their best feature is the museum and the beach view.\\n---\\nA really interesting museum with an array of artifacts depicting Namibian history, geography, geology, animal life and much more.\\nWe stayed much longer at the museum as initally intended as it was so \\u2026\\n---\\nOne could seriously learn a lot about Namibian nature, history, and pre colonial era from this museum. It\\u2019s almost the whole world in a building, and their facts are straight and well matched.\\n---\\nVery interesting Museum with clever displays!\\n---\\nWe sat down for a beer or 2 while the children played in the playground, service was friendly, just a little slow but it\'s understandable as it was a busy long weekend. Price\'s are a little steep but then you have to take in account the \\u2026\\n---\\nFound much more than expected and ended up spending hours going through it all! The retelling of Namibia\'s and Swakopmund\'s history is biased in presentation though (for e'... (set the log level to DEBUG or TRACE to see the full content) 
+ </msg>
+<msg time="2025-05-17T11:00:00.517043" level="INFO">POST Response : url=https://api.openai.com/v1/chat/completions 
+ status=429, reason=Too Many Requests 
+ headers={'Date': 'Sat, 17 May 2025 09:00:01 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '337', 'Connection': 'keep-alive', 'vary': 'Origin', 'x-request-id': 'req_ffbe4c5c0d02445e8bdf056f4d18a50a', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'cf-cache-status': 'DYNAMIC', 'Set-Cookie': '__cf_bm=8UFtL8odq.OSNa8xwqPB_GxmgdEPjeHs0sSUn8dxlEY-1747472401-1.0.1.1-KXODKle2kDWz8FSzBfa7P5XeuDERdUPnWHHW1Yvm1H4dBu9sN0Jc7uZOOxg5Lk1MOgKEKqSSoffFLhoLA0V3mjFg0F2fJcQoX.vCG.ffaM0; path=/; expires=Sat, 17-May-25 09:30:01 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=8ubIjIfjpkRDp9UPQFsaPcOM7UGARxyupEZbk_hmpSc-1747472401425-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None', 'X-Content-Type-Options': 'nosniff', 'Server': 'cloudflare', 'CF-RAY': '9411ec06bdf3fdcd-JNB', 'alt-svc': 'h3=":443"; ma=86400'} 
+ body={
+    "error": {
+        "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.",
+        "type": "insufficient_quota",
+        "param": null,
+        "code": "insufficient_quota"
+    }
+}
+ 
+ </msg>
+<msg time="2025-05-17T11:00:00.517043" level="INFO">C:\Users\Henry\Documents\RobotFrameworkProject\Robotframework-Project\venv\Lib\site-packages\urllib3\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'api.openai.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2025-05-17T11:00:00.518044" level="FAIL">HTTPError: 429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions</msg>
+<var>${response}</var>
+<arg>openai</arg>
+<arg>/v1/chat/completions</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-05-17T10:59:58.737180" elapsed="1.782865">HTTPError: 429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions</status>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${result}</var>
+<arg>${response.json()['choices'][0]['message']['content']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2025-05-17T11:00:00.520045" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2025-05-17T11:00:00.520045" elapsed="0.000000"/>
+</kw>
+<arg>museum_reviews.txt</arg>
+<status status="FAIL" start="2025-05-17T10:59:58.731182" elapsed="1.789861">HTTPError: 429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions</status>
+</kw>
+<doc>Calls the AI summary keyword and logs the result.</doc>
+<status status="FAIL" start="2025-05-17T10:59:58.730182" elapsed="1.790861">HTTPError: 429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions</status>
+</test>
+<status status="FAIL" start="2025-05-17T10:59:57.412653" elapsed="3.111391"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Swakopmund Attractions" id="s1" pass="0" fail="1" skip="0">Swakopmund Attractions</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
