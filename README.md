@@ -2,6 +2,9 @@
 
 This project automates the extraction and AI-based summarization of user reviews for Swakopmund tourist attractions using Robot Framework, SeleniumLibrary, and Gemini (Google) AI. It is designed to extract reviews from Google Maps for several attractions, save them to text files, and generate structured summaries using Gemini, with all results and evidence organized in dedicated folders.
 
+LINK TO THE VIDEO:
+https://youtu.be/0WQ_Mvu99O0
+
 > **Note:** During development, I initially attempted to extract reviews from other platforms (such as TripAdvisor, Facebook, and Yelp). However, these sites presented significant obstacles due to reCAPTCHA, login requirements, and anti-bot protections. As a result, the solution focuses on Google Maps, which allows for more reliable automated extraction without requiring user authentication or solving CAPTCHAs. Images of failed tests are found in images_of_failed_tests folder.
 
 ## Features
